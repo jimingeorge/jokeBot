@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>JokeBot</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="content">
+        <!-- <div class="robo-content"> -->
+        <img
+          class="robo-svg"
+          src="resources/robot-svgrepo-com.svg"
+          alt="robo avatar"
+        />
+        <!-- <div class="robo-joke-container">
+            <p class="robo-joke">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+              impedit dolor deleniti, quibusdam voluptate accusantium veritatis,
+              deserunt cumque delectus nemo facere vel ipsam sunt? Ex, deserunt
+              perferendis! Voluptas, minus saepe!
+            </p>
+          </div> -->
+        <!-- </div> -->
+        <div class="action-items">
+          <a href="#popup1"
+            ><button class="api" onclick="joke_fun()">Tell me a Joke</button>
+          </a>
+
+          <button class="voice" href="#popup1">
+            <img class="voiceImage" src="resources/microphone.png" />
+          </button>
+        </div>
+      </div>
+      <div id="popup1" class="overlay">
+        <div class="popup">
+          <h2>Here is the joke</h2>
+          <a class="close" onclick="cleanup_fun()" href="#">&times;</a>
+          <p class="joke-content">
+            Thank to pop me out of that button, but now i'm done so you can
+            close this window.
+          </p>
+          <p class="joke-content-punchline" onkeypress="punch_gen()"></p>
+          <!-- <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <script>
+      const joke_btn = document.getElementsByClassName('api');
+      const joke_content = document.getElementsByClassName('joke-content');
+      console.log(
+        '🚀 ~ file: index.html ~ line 77 ~ constjoke_fun= ~ joke_content',
+        joke_content
+      );
+      const joke_content_punchline = document.getElementsByClassName(
+        'joke-content-punchline'
+      );
+      let punchline;
+      const spinner = document.getElementsByClassName('spinner');
+      const get_joke = async () => {
+        return await fetch(
+          'https://official-joke-api.appspot.com/jokes/programming/random'
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            return data;
+          })
+          .catch((err) => {
+            console.log('err api', err);
+            return err;
+          });
+      };
+      const joke_fun = async () => {
+        console.log('clicked');
+        joke_content_punchline[0].style.display = 'none';
+        const api_call = await get_joke();
+        console.log('api_call', api_call);
+        const result = {
+          setup: api_call[0].setup,
+          punchline: api_call[0].punchline
+        };
+        console.log({ result });
+        joke_content_punchline[0].innerText = "<< press 'p' for punchline >>";
+        joke_content_punchline[0].style.display = 'inline';
+        joke_content[0].innerText = `${result.setup}`;
+        punchline = result.punchline;
+        window.addEventListener(
+          'keydown',
+          (event) => {
+            if (event.defaultPrevented) {
+              return; // Do nothing if the event was already processed
+            }
+
+            switch (event.key) {
+              case 'p':
+                console.log('p'); // IE/Edge specific value
+                joke_content_punchline[0].innerText = punchline;
+                break;
+              case 'v':
+                console.log('v'); // IE/Edge specific value
+                // Do something for "down arrow" key press.
+                break;
+              default:
+                return; // Quit when this doesn't handle the key event.
+            }
+
+            // Cancel the default action to avoid it being handled twice
+            event.preventDefault();
+          },
+          true
+        );
+      };
+      const cleanup_fun = () => {
+        joke_content_punchline[0].innerText = '';
+        joke_content[0].innerText = '';
+      };
+    </script>
+  </body>
+</html>
