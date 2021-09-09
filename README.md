@@ -8,11 +8,11 @@ Built with vanillaJS
 
 ## Screenshots and demo
 
-Screenshots of your app and/or a link to your live demo
+![Alt text](resources/screenshot.png?raw=true 'Screenshot')
 
 ## Installation
 
-Instructions for other developers on how to install and run your code on their local environment.
+- Open index.html and your good to go
 
 ## License
 
