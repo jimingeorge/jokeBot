@@ -1,6 +1,8 @@
 # DevProjects - Joke telling bot web app
 
-A voice bot that tells joke
+A voice bot that tells joke.
+
+**NOTE:** Tested on Chrome and Firefox but works only on Chrome as it has the Web Speech API
 
 ## Tech/framework used
 
